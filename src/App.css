@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+body{
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 400;
+    line-height: 1;
+  }
+.font-heading{
+    font-size: 2rem;
+}
+.App{
+    height: 100vh;
+	width: 100%;
+    background-image:url(Images/login.jpg);; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+} 
+img{
+    display: block;
+    margin: 0 auto;
+    width:100px;
+    height: 100px;
+}
+a{
+    cursor: pointer;
+}
+.card{
+    width: 30rem;
+    font-size: 1.25rem; 
+    margin-left: auto !important;
+    margin-right: 10% !important;
+    background-color: rgb(173,216,230,0.3) !important;
+    color: beige;
+}
+.small{
+    font-size: .85rem;
+}
+.protected-wrapper{   
+    font-family: 'Roboto', sans-serif;
+    justify-content: center;
+    align-items: center;
+    max-height: 100vh; 
+    text-align: center;
+    color: rgb(255 255 255);
+    margin-top: 3rem;
+    font-weight: bolder;
+    margin-left: 38rem;
+}
+.unauthorized-access{
+    height : 100%;
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color : rgb(252, 47, 47);
+    background-image: url(Images/light.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-size: 2rem;
+}
+
+.align {
+   margin-left: auto !important;
+   margin-right: 10% !important;
+   background-color: rgb(173,216,230,0.3) !important;
+   color: beige;
+}
+
+.btn-success {   
+   background-color: #1da9de!important;
+   border-color: #1da9de!important;
+}
+
+.btn-success:hover {   
+    background-color: #13609a!important;
+    border-color: #13609a!important;
+ }
