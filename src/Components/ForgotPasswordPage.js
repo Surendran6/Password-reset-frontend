@@ -19,7 +19,7 @@ function ForgotPasswordPage() {
     const onSubmit = async (values,onSubmitProps) => {
         const {email} = values
         try{            
-            var result = await axios.post(`https://password-reset--backend.herokuapp.com/api/auth/forgotpassword`,{email})
+            var result = await axios.post(`http://localhost:5000/api/auth/forgotpassword`,{email})
             setError(result.data.success)
             setMessage(result.data.data)
         }catch(error){

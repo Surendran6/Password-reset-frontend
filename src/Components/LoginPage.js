@@ -21,9 +21,11 @@ function LoginPage() {
     const onSubmit = async (values,onSubmitProps) => {
         const {email,password} = values
         try{
-            var result = await axios.post(`https://password-reset--backend.herokuapp.com/api/auth/login`,{email,password})
+            var result = await axios.post(`http://localhost:5000/api/auth/login`,{email,password})
             console.log(result);
-            localStorage.setItem('auth-token',result.data.token)
+            localStorage.setItem('auth-token', result.data.token);
+            localStorage.setItem('profilePhoto', result.data.user.profilePhoto);
+            localStorage.setItem('username', result.data.user.username);
             history.push('/Authorized')
         }catch(error){
             setMessage(error.response.data.error)

@@ -9,16 +9,20 @@ import FormControl from '../Formik/FormControl'
 
 function RegisterPage() {
     const [message,setMessage] = useState('');
+    const initialState = { alt: "", src: "" };
+    const [{ alt, src }, setPreview] = useState(initialState);
     const history = useHistory();
     const initialValues = {
         username : '',
         email : '',
+        profilePhoto:'',
         password : '',
         confirmpassword : ''
     }
     const validationSchema = Yup.object({
         username : Yup.string().required('Name is mandatory').min(3, 'Name must atleast contain 3 characters'),
-        email : Yup.string().email('Enter valid email').required('Email is required'),
+        email: Yup.string().email('Enter valid email').required('Email is required'),
+        profile: Yup.string().required(),
         password : Yup.string()
             .required('Please Enter your password')
             .matches(
@@ -29,13 +33,27 @@ function RegisterPage() {
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
     })
     const onSubmit = async (values) => {
-        const {username,email,password} = values
+        values.profilePhoto = src;
+        console.log(values);
+        const { username, email, password, profilePhoto} = values
         try{
-            const result = await axios.post(`https://password-reset--backend.herokuapp.com/api/auth/register`,{username,email,password})
+            const result = await axios.post(`http://localhost:5000/api/auth/register`, { username, email, password, profilePhoto})
             history.push('/login')
         }catch(error){
             setMessage(error.response.result.message || error.response.result.error)
         }  
+    }
+
+    const fileHandler = files  => {
+        setPreview(
+            files.length
+                ? {
+                    src: URL.createObjectURL(files[0]),
+                    alt: files[0].name
+                }
+                : initialState
+        );
+        console.log(alt);
     }
     return (
         <div className="card align">
@@ -47,9 +65,15 @@ function RegisterPage() {
                         (formik) => (
                             <Form>
                                 <FormControl control = 'input' type= 'text' placeholder = 'UserName' name='username' />
-                                <FormControl control = 'input' type= 'email' placeholder = 'Email' name='email' />
+                                <FormControl control='input' type='email' placeholder='Email' name='email' />
                                 <FormControl control = 'input' type= 'password' placeholder = 'Password' name='password' />
                                 <FormControl control = 'input' type= 'password' placeholder = 'Confirm Password' name='confirmpassword' />
+                                <input accept="image/*" type='file' name='profilePhoto' onChange={(event) => {
+                                    const files = event.target.files;
+                                    fileHandler(files);
+                                    formik.setFieldValue("profile", files);
+                                }} />
+                                {src ? <img className="preview" src={src} alt={alt} /> : ''}            
                                 <button type='submit' className='my-4 btn btn-block btn-success'>Register</button>
                             </Form>
                         )
