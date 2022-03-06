@@ -23,15 +23,12 @@ function LoginPage() {
         try{
             var result = await axios.post(`http://localhost:5000/api/auth/login`,{email,password})
             console.log(result);
-            localStorage.setItem('auth-token', result.data.token);
-            localStorage.setItem('profilePhoto', result.data.user.profilePhoto);
-            localStorage.setItem('username', result.data.user.username);
+            localStorage.setItem('auth-token', result.data.token);          
             history.push('/Authorized')
         }catch(error){
             setMessage(error.response.data.error)
         }  
-        onSubmitProps.resetForm();
-        
+        onSubmitProps.resetForm();        
     }
     return (
         <div className="card align">
@@ -49,8 +46,7 @@ function LoginPage() {
                     }
                 </Formik>
                 <span className='small'>
-                    Don't have an account?  
-                    
+                    Don't have an account?                      
                     <Link to='/register' style={{ textDecoration: 'none' }}>    Register</Link> 
                 </span>
             </div>

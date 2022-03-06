@@ -2,14 +2,16 @@ import React, { useState,useEffect } from 'react'
 import {Link} from 'react-router-dom'
 import { useHistory } from 'react-router'
 import axios from 'axios'
-import { SpinnerDotted } from 'spinners-react';
+import {useSelector,useDispatch} from 'react-redux';
+import{author} from './Redux/Actions'
+
 
 function ProtectedPage() {
-    const history = useHistory();
-    const [flag,setFlag] = useState(true);
-    const [content,setContent] = useState(false);
-    const [username, setUsername] = useState('');
-    const [profilePhoto, setProfilePhoto] = useState('');
+    const history = useHistory();    
+    // const [content,setContent] = useState(false);
+    const accessLogin = useSelector(state => state.accessLogin)
+    const dispatch = useDispatch();
+ 
     useEffect(() => {
         const token = localStorage.getItem('auth-token')
         async function fetchData(){
@@ -20,43 +22,26 @@ function ProtectedPage() {
                     Authorization: `Bearer ${token}`
                     }
                 }
-            )
-            setFlag(false);
-            setContent(true);
-            setUsername(localStorage.getItem('username'));
-            setProfilePhoto(localStorage.getItem('profilePhoto'));
-            console.log(localStorage.getItem('username'));
+            )            
+            dispatch(author());            
         }
-        if(token === null){
-            setFlag(false)
-        }else{
-            fetchData();
-        }
-        
-        
+        if(token !== null){          
+          fetchData();
+        }       
     }, [])
     
     const logoutHandler = () => {
-        localStorage.removeItem('auth-token');
-        setContent(false)
+        localStorage.removeItem('auth-token');        
+       
         history.push('/login')
     }
-    return (
-        <>
-        {
-            flag 
-            ?
-            <div className="d-flex align-items-center justify-content-center" style={{paddingTop:"150px",paddingBottom:"150px"}}>
-                <SpinnerDotted /> 
-            </div>
-            :
+    return (   
             <>
             {
-                content
+                accessLogin
                 ?
                 <div>
-                <img className="preview" src={profilePhoto ? profilePhoto : ''} />
-                <span style={{color: 'red'}}>{username}</span>
+                
                 <div className='protected-wrapper'>
                     <h1 className='protected-access'>Congrats! You have successfully<br/> 
                                                          logged in to protected route.</h1>
@@ -71,9 +56,7 @@ function ProtectedPage() {
                     <button class="btn btn-primary"><Link to='/login'><span style={{color:"white"}}>Login</span></Link></button>
                 </div>
             }
-            </>
-        }
-        </>
+            </>        
     )
 }
 
